@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokédex</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+
+    
+<!-- HEADER: Überschrift der Seite  -->
+<div class="header">
+    <h1>Tom's Pokédex</h1>
+</div>
+
+<!-- SEARCH: Suchfunktion  -->
+<div class="search"></div>
+    <input type="text" id="searchInput" class="form-control my-3" placeholder="Suche Pokémon" oninput="filterPokemon()">
+</div>
+
+<!-- FILTER: Filterfunktionen  -->
+<div class="filters row">
+    <div class="col">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="filter1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Familie (family)
+            </button>
+            <div class="dropdown-menu" aria-labelledby="filter1">
+                <a class="dropdown-item" href="#">Bulbasaur</a>
+                <a class="dropdown-item" href="#">Charmander</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="filter2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Art (types)
+            </button>
+            <div class="dropdown-menu" aria-labelledby="filter2">
+                <a class="dropdown-item" href="#">Grass</a>
+                <a class="dropdown-item" href="#">Gift</a>
+                <a class="dropdown-item" href="#">Feuer</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="filter3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Shiny vorhanden (shiny_released)
+            </button>
+            <div class="dropdown-menu" aria-labelledby="filter3">
+                <a class="dropdown-item" href="#">Ja</a>
+                <a class="dropdown-item" href="#">Nein</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- POKEMONLIST: Liste der Pokemon (aus JS generiert)  -->
+<div id="pokemonList"></div>
+
+
+<!-- SCRIPT: BOOTSTRAP, JQUERY und mein JS Code laden  -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
