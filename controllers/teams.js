@@ -19,5 +19,18 @@ teamsRouter.get('/', async (request, response) => {
         if (team) {
             response.json(team)
         } else {
-            request.statusCode(404).end()   
+            request.statusCode(404).end()
+        }
+    })
+    
+    teamsRouter.delete('/:id', userExtractor, async (request, response) => {
+        const user = request.user
+        const teamsToBeDeleted = await Team.findById(request.params.id)
+
+        if (!teamsToBeDeleted) {
+            return response.status(204).end()
+
+        }
+        if (teamsToBeDeleted.user.toString() !== user._id)
+
 
