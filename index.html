@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Pokédex</title>
+    <title>Tom's Pokédex</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -14,67 +14,61 @@
     <h1>Tom's Pokédex</h1>
 </div>
 
-<!-- SEARCH: Suche  -->
+<!-- SEARCH: Suchfunktion  -->
 <div class="search"></div>
-    <input type="text" id="searchInput" class="form-control my-3" placeholder="Suche Pokémon" oninput="filterPokemon()">
-</div>
-<div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle my-3" type="button" id="lang" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Sprache (Lang)
-    </button>
-    <div class="dropdown-menu" class="md-2" aria-labelledby="Sprache (Lang)">
-    <a class="dropdown-item" href="#">DE</a>
-    <a class="dropdown-item" href="#">EN</a>
-    <a class="dropdown-item" href="#">FR</a>
-    <a class="dropdown-item" href="#">JP</a>
-    <a class="dropdown-item" href="#">KR</a>
-    <a class="dropdown-item" href="#">ZH</a>
+    <input type="text" id="searchInput" class="form-control my-3" placeholder="Suche Pokémon nach Namen und ID" oninput="filterPokemon()">
 </div>
 
-<!-- FILTER: Filterfunktionen  -->
-<div class="filters row">
-    <div class="col">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="filter1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Familie (family)
-            </button>
-            <div class="dropdown-menu" aria-labelledby="PokemonFamily">
-                <a class="dropdown-item" href="#">Bulbasaur</a>
-                <a class="dropdown-item" href="#">Charmander</a>
-            </div>
-        </div>
-    </div>
+<!-- AUSWAHL: Sprache der Pokemon-Namen auswählen -->
+<div class="language"></div>
+<label for="languageFilter">Pokemon Namen in:</label>
+  <select id="languageFilter">
+      <option value="en">EN - English</option>
+      <option value="de">DE - Deutsch</option>
+      <option value="fr">FR - Francais</option>
+      <option value="ja">JA - 日本風</option>
+      <option value="kr">KR - 한국인</option>
+      <option value="zh">ZH - 中文</option>
+  </select>
+</div>
 
-    <div class="col">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="filter2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Art (types)
-            </button>
-            <div class="dropdown-menu" aria-labelledby="PokemonTypes">
-                <a class="dropdown-item" href="#">Grass</a>
-                <a class="dropdown-item" href="#">Gift</a>
-                <a class="dropdown-item" href="#">Feuer</a>
-            </div>
-        </div>
-    </div>
+<!-- AUSWAHL: Filter nach Status "Owned"  -->
 
-    <div class="col">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="filter3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Shiny vorhanden (shiny_released)
-            </button>
-            <div class="dropdown-menu" aria-labelledby="PokemonShinyReleased">
-                <a class="dropdown-item" href="#">Ja</a>
-                <a class="dropdown-item" href="#">Nein</a>
-            </div>
-        </div>
-    </div>
+<div class="owned">
+  <label for="showOwned">My Pokédex:
+    <input type="checkbox" id="showOwned">
+  </label>
+</div>
+
+<!-- FILTER: Filterfunktionen nach  Typ,  -->
+
+<div class="filter">
+  <label for="typeFilter">Filter nach Typ:</label>
+    <select id="typeFilter">
+      <option value="all">Alle</option>
+      <option value="bug">Bug</option>
+      <option value="dark">Dark</option>
+      <option value="dragon">Dragon</option>
+      <option value="electric">Electric</option>
+      <option value="fighting">Fighting</option>
+      <option value="fire">Fire</option>
+      <option value="ghost">Ghost</option>
+      <option value="grass">Grass</option>
+      <option value="ground">Ground</option>
+      <option value="ice">Ice</option>
+      <option value="normal">Normal</option>
+      <option value="poison">Poison</option>
+      <option value="psychic">Psychic</option>
+      <option value="rock">Rock</option>
+      <option value="steel">Steel</option>
+      <option value="water">Water</option>
+    </select>
 </div>
 
 <!-- POKEMONLIST: Liste der Pokemon (aus JS generiert)  -->
 
 <p>This is your Pokemon's:</p>
-<div id="pokemonList"></div>
+<div class= "pokemonList" id="pokemonList"></div>
 
 <!-- SCRIPT: BOOTSTRAP, JQUERY und mein JS Code laden  -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

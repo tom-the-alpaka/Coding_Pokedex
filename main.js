@@ -1,55 +1,74 @@
+// Befehl LoadPokemon() wird ausgeführt, sobald die Seite geladen ist.
 document.addEventListener('DOMContentLoaded', function() {
-    loadPokemon();
+    loadPokemon().then(() => {
+        showSelectedPokemons();
+    });
 });
 
-function loadPokemon() {
+// Deklaration der Variablen für die Filter und Suche
+// Erklärung: This JavaScript code is using the document.getElementById() method to select HTML elements by their ID and assign them to variables. This is often done so that you can later manipulate these elements or their contents using JavaScript.
+
+const pokemonList = document.getElementById('pokemonList')
+const searchInput = document.getElementById('searchInput');
+const typeFilter = document.getElementById('typeFilter');
+const languageFilter = document.getElementById('languageFilter');
+
+// Eventlistener für die Filter und Suche
+searchInput.addEventListener('keyup', filterPokemon);
+typeFilter.addEventListener('change', filterPokemon);
+
+// Daten aus JSON der Pokemon in Javaskript speichern
+let pokemonData = [];
+const loadPokemon = () => {
     fetch('pmlist.json')
-        .then(response => response.json())
+    .then(response => response.json())
         .then(data => {
-            console.log(data); // This line will print the data to the console
+            console.log(data);
+            pokemonData = data; 
+            pokemonData.forEach(pokemon => createPokemonCard(pokemon));
+        })
+        .catch(error => console.error('Error fetching Pokemon data: ', error));
+};
 
-            const pokemonList = document.getElementById('pokemonList');
-            data.forEach(pokemon => {
-                const col = document.createElement('div');
-                col.className = 'col-md-3';
+const createPokemonCard = (pokemon) => {        
+    const pokemonEl = document.createElement('div');
+    pokemonEl.classList.add('pokemon');
 
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.setAttribute('data-id', pokemon.dex);
+    const selectedPokemons = JSON.parse(localStorage.getItem('selectedPokemons')) || {};
 
-                const img = document.createElement('img');
-                img.className = 'card-img-top';
-                img.src = `pokemon/pokemon_icon_${pokemon.dex}_00.png`;
+    const isChecked = selectedPokemons.hasOwnProperty(pokemon.dex);
+    const isSelectedClass = isChecked ? 'selected' : '';
 
-                const cardBody = document.createElement('div');
-                cardBody.className = 'card-body';
+    const currentLanguage = languageFilter.value; // Aktuell ausgewählte Sprache
+    const name = pokemon.name[currentLanguage]; // Name des Pokemons in der aktuellen Sprache
+    const id = pokemon.dex.toString().padStart(3, '0');
 
-                const title = document.createElement('h5');
-                title.className = 'card-title';
-                title.textContent = `#${pokemon.dex} - ${pokemon.name.en}`; 
+    const poke_types = pokemon.types;
+    const type = main_types.find(type => poke_types.indexOf(type) > -1);
 
-                const text = document.createElement('p');
-                text.className = 'card-text';
-                text.textContent = `Family: ${pokemon.family}`; 
+    const imagePath = `Bilder/pokemon_icon_${id}_00.png`;
 
-                const button = document.createElement('button');
-                button.className = 'btn btn-primary';
-                button.textContent = 'Save / Unsave';
-                button.onclick = function() { markAsOwned(pokemon.dex); };
+    const pokemonInnerHTML = `
+    <div class="img-container">
+        <img src="${imagePath}" alt="">
+    </div>
+    <div class="info">
+        <span class="number">#${id}</span>
+        <h3 class="name">${name}</h3>
+        <small class="type">Type: <span>${type}</span> </small>
+    </div>
+    <small class="select-label">
+        <input type="checkbox" class="select-pokemon" data-dex="${pokemon.dex}"${isChecked ? ' checked' : ''}>owns
+    </small>
+    `;
 
-                cardBody.appendChild(title);
-                cardBody.appendChild(text);
-                cardBody.appendChild(button);
+    pokemonEl.innerHTML = pokemonInnerHTML;
+    if(isSelectedClass){
+        pokemonEl.classList.add('owned'); // Füge der Pokemon-Karte die Klasse owned hinzu
+    }
+    pokemonList.appendChild(pokemonEl);
+};
 
-                card.appendChild(img);
-                card.appendChild(cardBody);
-
-                col.appendChild(card);
-
-                pokemonList.appendChild(col);
-            });
-        });
-}
 
 function markAsOwned(pokemonId) {
     const card = document.querySelector(`[data-id="${pokemonId}"]`);
@@ -64,3 +83,26 @@ function filterPokemon() {
         card.parentNode.style.display = title.includes(input) ? '' : 'none';
     });
 }
+
+// Speichere die ausgewählten Pokemon in localStorage
+const saveSelectedPokemons = (dex, isSelected) => {
+    let selectedPokemons = JSON.parse(localStorage.getItem('selectedPokemons')) || {};
+
+    if (isSelected){
+        selectedPokemons[dex] = isSelected;
+    } else {
+        delete selectedPokemons[dex];
+    }
+    localStorage.setItem('selectedPokemons', JSON.stringify(selectedPokemons));
+};
+
+// Funktion, um die ausgewählten Pokemon zu zeigen
+languageFilter.addEventListener('change', () => {
+    // Wenn sich die Sprache ändert, müssen die Pokemon-Karten neu erstellt werden
+    poke_container.innerHTML = '';
+    pokemonData.forEach(pokemon => createPokemonCard(pokemon));
+});
+
+
+const showSelectedCheckbox = document.getElementById('showSelected');
+showSelectedCheckbox.addEventListener('change', showSelectedPokemons);
